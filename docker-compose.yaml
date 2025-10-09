@@ -1,0 +1,25 @@
+services:
+  depth_estimation:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    image: aina/depth_estimation:latest
+    container_name: depth_estimation_container
+    shm_size: '8gb'
+    volumes:
+      - /home/${USER}/workspace/depth_estimation/scripts:/workspace/depth_estimation/scripts
+      - /home/${USER}/workspace/depth_estimation/data:/workspace/depth_estimation/data
+      - /home/${USER}/workspace/depth_estimation/media:/workspace/depth_estimation/media
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/tmp/.Xauthority:ro
+    devices:
+      - /dev/video0:/dev/video0
+    working_dir: /workspace/depth_estimation
+    stdin_open: true
+    tty: true
+    gpus: all
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.Xauthority
