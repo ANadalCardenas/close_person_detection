@@ -9,6 +9,19 @@ VIDEO_PATH = "/workspace/depth_estimation/media/video.mp4"  # Input video path
 MIDAS_MODEL_TYPE = "DPT_Hybrid"                             # MiDaS model: "DPT_Hybrid", "DPT_Large", "MiDaS_small"
 OBJECT = "person"
 
+
+def get_detected_objects(model, detections):
+    objects_dict ={}
+    # Iterate over detections
+    for *box, conf, cls_id in detections.tolist():
+        class_name = model.names[int(cls_id)]
+        box_coords = [float(x) for x in box]  # [xmin, ymin, xmax, ymax
+        # Add box to the corresponding class in the dictionary
+        if class_name not in objects_dict:
+            objects_dict[class_name] = []
+        objects_dict[class_name].append(box_coords)
+    return objects_dict
+    
 def main():    
     # ------------------------------
     # Device (GPU if available)
@@ -50,18 +63,8 @@ def main():
 
             results = model(frame)
             detections = results.xyxy[0]
-             # Initialize dictionary
-            objects_dict = {}
-
-            # Iterate over detections
-            for *box, conf, cls_id in detections.tolist():
-                class_name = model.names[int(cls_id)]
-                box_coords = [float(x) for x in box]  # [xmin, ymin, xmax, ymax]
-
-                # Add box to the corresponding class in the dictionary
-                if class_name not in objects_dict:
-                    objects_dict[class_name] = []
-                objects_dict[class_name].append(box_coords)
+            # Gets the information of detected objects
+            objects_dict = get_detected_objects(model, detections)
 
             if OBJECT in objects_dict.keys():
                 for bbox in objects_dict[OBJECT]:
@@ -70,8 +73,6 @@ def main():
 
                     # Apply MiDaS transform and add batch dimension
                     input_batch = transform(img_rgb).to(device)  # Shape: [1, 3, H, W]
-
-
                     # Predict depth
                     depth_pred = midas(input_batch)
 
