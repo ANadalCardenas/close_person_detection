@@ -139,21 +139,33 @@ def main():
                         cv2.FILLED
                     )
 
-                    # Draw label text
-                    cv2.putText(
-                        frame, label, (text_x, text_y),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2
-                    )
-                    border_size = 20
-                    frame = cv2.copyMakeBorder(
-                        frame,
-                        top=border_size,
-                        bottom=border_size,
-                        left=border_size,
-                        right=border_size,
-                        borderType=cv2.BORDER_CONSTANT,
-                        value=(0, 0, 255)  # Red color
-                    )
+                # Draw label text
+                cv2.putText(
+                    frame, label, (text_x, text_y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2
+                )
+                border_size = 20
+                frame = cv2.copyMakeBorder(
+                    frame,
+                    top=border_size,
+                    bottom=border_size,
+                    left=border_size,
+                    right=border_size,
+                    borderType=cv2.BORDER_CONSTANT,
+                    value=(0, 0, 255)  # Red color
+                )    
+            else:
+                # If there are not objects close, the border will be green
+                border_size = 20
+                frame = cv2.copyMakeBorder(
+                    frame,
+                    top=border_size,
+                    bottom=border_size,
+                    left=border_size,
+                    right=border_size,
+                    borderType=cv2.BORDER_CONSTANT,
+                    value=(0, 255, 0)  # Green color ()
+                )    
 
             # ------------------------------
             # Combine original + depth frames
