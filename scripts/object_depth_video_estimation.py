@@ -8,7 +8,7 @@ import numpy as np
 VIDEO_PATH = "/workspace/depth_estimation/media/video.mp4"  # Input video path
 MIDAS_MODEL_TYPE = "DPT_Hybrid"  # Options: "DPT_Hybrid", "DPT_Large", "MiDaS_small"
 OBJECT = "person"  # Object class to detect and measure depth for
-
+DEPTH_LIMIT = 500 # If an object appears within DEPTH_LIMIT units, the danger border turn red and become thicker 
 
 # ==============================================================
 # Helper Function
@@ -111,6 +111,10 @@ def main():
             # ------------------------------
             # Draw detections for the target object
             # ------------------------------
+            # Draw a green border if there is no objects in the video
+            border_color = (0, 225, 0)  # Green color
+            border_size = 20
+
             if OBJECT in objects_dict:
                 for bbox in objects_dict[OBJECT]:
                     xmin, ymin, xmax, ymax = map(int, bbox)
@@ -118,6 +122,7 @@ def main():
                     # Extract depth region for the detected object
                     object_depth = depth_pred[ymin:ymax, xmin:xmax]
                     median_depth = np.median(object_depth)
+                    print("Median depth", median_depth)
 
                     # Draw bounding box
                     cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
@@ -144,33 +149,29 @@ def main():
                     frame, label, (text_x, text_y),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2
                 )
-                border_size = 20
-                frame = cv2.copyMakeBorder(
-                    frame,
-                    top=border_size,
-                    bottom=border_size,
-                    left=border_size,
-                    right=border_size,
-                    borderType=cv2.BORDER_CONSTANT,
-                    value=(0, 0, 255)  # Red color
-                )    
-            else:
-                # If there are not objects close, the border will be green
-                border_size = 20
-                frame = cv2.copyMakeBorder(
-                    frame,
-                    top=border_size,
-                    bottom=border_size,
-                    left=border_size,
-                    right=border_size,
-                    borderType=cv2.BORDER_CONSTANT,
-                    value=(0, 255, 0)  # Green color ()
-                )    
+                # Changes the border color in red or orange. Its depends on the depth wich the object appears
+                if median_depth < DEPTH_LIMIT:
+                        border_color = (0, 0, 255)  # Red color
+                        border_size = 30 # Border size become thicker
+                else:
+                    border_color = (255, 165, 0)  # Red color
 
+            # ------------------------------
+            # Add the border at the right video in different color (green, orange, red) depending on whether there is no one in the video,
+            frame = cv2.copyMakeBorder(
+                frame,
+                top=border_size,
+                bottom=border_size,
+                left=border_size,
+                right=border_size,
+                borderType=cv2.BORDER_CONSTANT,
+                value=border_color
+            )  
             # ------------------------------
             # Combine original + depth frames
             # ------------------------------
             # Ensure both have the same height
+              
             if frame.shape != depth_vis_color.shape:
                 depth_vis_color = cv2.resize(depth_vis_color, (frame.shape[1], frame.shape[0]))
             combined = np.hstack((frame, depth_vis_color))
