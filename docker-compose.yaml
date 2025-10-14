@@ -1,20 +1,20 @@
 services:
-  depth_estimation:
+  close_person_detection:
     build:
       context: .
       dockerfile: Dockerfile 
-    image: aina/depth_estimation:latest
-    container_name: depth_estimation_container
+    image: aina/close_person_detection:latest
+    container_name: close_person_detection_container
     shm_size: '8gb'
     volumes:
-      - /home/${USER}/workspace/depth_estimation/scripts:/workspace/depth_estimation/scripts
-      - /home/${USER}/workspace/depth_estimation/data:/workspace/depth_estimation/data
-      - /home/${USER}/workspace/depth_estimation/media:/workspace/depth_estimation/media
+      - /home/${USER}/workspace/close_person_detection/scripts:/workspace/close_person_detection/scripts
+      - /home/${USER}/workspace/close_person_detection/data:/workspace/close_person_detection/data
+      - /home/${USER}/workspace/close_person_detection/media:/workspace/close_person_detection/media
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XAUTHORITY:-$HOME/.Xauthority}:/tmp/.Xauthority:ro
     devices:
       - /dev/video0:/dev/video0
-    working_dir: /workspace/depth_estimation
+    working_dir: /workspace/close_person_detection
     stdin_open: true
     tty: true
     gpus: all

@@ -6,7 +6,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libgl1 libglib2.0-0 pyqt5-dev-tools
 
 # Set the working directory
-ARG WORKSPACE=/workspace/depth_estimation
+ARG WORKSPACE=/workspace/close_person_detection
 
 # Create workspace directory
 RUN mkdir -p $WORKSPACE
