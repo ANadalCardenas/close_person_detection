@@ -5,7 +5,7 @@ import numpy as np
 # ==============================================================
 # Configuration
 # ==============================================================
-VIDEO_PATH = "/workspace/depth_estimation/media/video.mp4"  # Input video path
+VIDEO_PATH = "/workspace/close_person_detection/media/video.mp4"  # Input video path
 MIDAS_MODEL_TYPE = "DPT_Hybrid"  # Options: "DPT_Hybrid", "DPT_Large", "MiDaS_small"
 OBJECT = "person"  # Object class to detect and measure depth for
 DEPTH_LIMIT = 500 # If an object appears within DEPTH_LIMIT units, the danger border turn red and become thicker 
