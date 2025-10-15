@@ -37,7 +37,9 @@ def main():
             detections = yolo.detect_objects(frame)
 
             # Combine depth + detection info
-            frame, border_color, border_size = analyzer.analyze(frame, depth_pred, detections, yolo)
+            frame, border_color, border_size, border_message = analyzer.analyze(frame, depth_pred, detections, yolo)
+            frame = viewer.add_border(frame, border_color, border_size, border_message)
+
 
             # Display
             frame = viewer.add_border(frame, border_color, border_size)
