@@ -30,11 +30,13 @@ class ClosePersonAnalyzer:
 
                 # Change border color and set message if too close
                 if median_depth < self.depth_limit:
-                    border_color = (0, 0, 255)  # red
+                    border_color = (0, 0, 255)   # red
                     border_message = "STOP"
+                elif median_depth < self.depth_limit * 1.2:
+                    border_color = (0, 140, 255)  # orange
+                    border_message = "CAUTION"
                 else:
-                    border_color = (0, 255, 165)  # green
-                    border_message = "WARNING"
-
+                    border_color = (0, 255, 0)   # green
+                    border_message = "SAFE"
 
         return frame, border_color, border_size, border_message

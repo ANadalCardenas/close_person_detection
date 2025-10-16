@@ -15,7 +15,7 @@ def main():
     # Initialize modules
     yolo = ObjectDetection(device=device)
     midas = DepthEstimator(device=device)
-    analyzer = ClosePersonAnalyzer(object_name="person", depth_limit=500)
+    analyzer = ClosePersonAnalyzer(object_name="person", depth_limit=300)
     viewer = Viewer()
 
     cap = cv2.VideoCapture(VIDEO_PATH)
