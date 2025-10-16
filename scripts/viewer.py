@@ -11,14 +11,15 @@ class Viewer:
             value=color
         )
         if message:
-            # Draw message at top center of border
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            font_scale = 1.5
-            thickness = 3
-            text_size = cv2.getTextSize(message, font, font_scale, thickness)[0]
-            text_x = (frame_with_border.shape[1] - text_size[0]) // 2
-            text_y = text_size[1] + 10
-            cv2.putText(frame_with_border, message, (text_x, text_y), font, font_scale, (255, 255, 255), thickness)
+            # Calculate position to center the message
+            (text_w, text_h), _ = cv2.getTextSize(message, cv2.FONT_HERSHEY_SIMPLEX, 2, 5)
+            text_x = (frame_with_border.shape[1] - text_w) // 2
+            text_y = size + text_h + 10  # Slight offset from top border
+
+            # Draw message in black
+            cv2.putText(frame_with_border, message, (text_x, text_y),
+                        cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 5, cv2.LINE_AA)
+
         return frame_with_border
 
     @staticmethod
