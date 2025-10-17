@@ -14,7 +14,7 @@ def main():
 
     # Initialize modules
     yolo = ObjectDetection(device=device)
-    midas = DepthEstimator(device=device)
+    depth_estimator = DepthEstimator(device=device)
     analyzer = ClosePersonAnalyzer(object_name="person", depth_limit=300)
     viewer = Viewer()
 
@@ -31,7 +31,7 @@ def main():
                 break
 
             # Depth estimation
-            depth_pred, depth_vis_color = midas.estimate_depth(frame)
+            depth_pred, depth_vis_color = depth_estimator.estimate_depth(frame)
 
             # Object detection
             detections = yolo.detect_objects(frame)
