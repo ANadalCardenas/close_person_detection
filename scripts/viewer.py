@@ -62,13 +62,14 @@ class Viewer:
         y2 = y1 + btn_size
         self.button_region = (x1, y1, x2, y2)
 
-        # Draw button background (semi-transparent gray circle)
-        overlay = frame.copy()
-        cv2.circle(overlay, (x1 + btn_size // 2, y1 + btn_size // 2), btn_size // 2, (50, 50, 50), -1)
-        cv2.addWeighted(overlay, 0.5, frame, 0.5, 0, frame)
-
+        
+        # Draw white button background
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 255, 255), -1)
+        # Draw icon instead of text
+        icon_color = (0, 0, 0)  # black
         # Draw icon (▶ or ⏸)
         center_x, center_y = x1 + btn_size // 2, y1 + btn_size // 2
+        
         if self.paused:
             # ▶ Play icon (triangle)
             pts = np.array([
@@ -76,7 +77,7 @@ class Viewer:
                 [center_x - 10, center_y + 15],
                 [center_x + 15, center_y]
             ], np.int32)
-            cv2.fillPoly(frame, [pts], (0, 255, 0))
+            cv2.fillPoly(frame, [pts], icon_color)
         else:
             # ⏸ Pause icon (two bars)
             cv2.rectangle(frame, (center_x - 12, center_y - 15), (center_x - 4, center_y + 15), (0, 0, 255), -1)
