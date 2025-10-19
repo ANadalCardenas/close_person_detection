@@ -2,6 +2,22 @@ import cv2
 import numpy as np
 
 class Viewer:
+    def __init__(self):
+        self.paused = False
+        self.button_region = None
+        self.window_name = "Detected Person (Left) | Depth Map (Right)"
+
+        # Register mouse callback
+        cv2.namedWindow(self.window_name)
+        cv2.setMouseCallback(self.window_name, self._mouse_event)
+
+    def _mouse_event(self, event, x, y, flags, param):
+        """Toggle pause if user clicks inside button region."""
+        if event == cv2.EVENT_LBUTTONDOWN and self.button_region is not None:
+            x1, y1, x2, y2 = self.button_region
+            if x1 <= x <= x2 and y1 <= y <= y2:
+                self.paused = not self.paused
+
     @staticmethod
     def add_border(frame, color, size, message=""):
         """Add colored border around the frame with optional message."""
@@ -33,6 +49,42 @@ class Viewer:
 )
         return frame_with_border
 
+    def _draw_button(self, frame):
+        """Draw play/pause icon button at the bottom center between both frames."""
+        h, w, _ = frame.shape
+        btn_size = 60
+        margin_bottom = 20
+
+        # Button coordinates (centered horizontally)
+        x1 = w // 2 - btn_size // 2
+        y1 = h - btn_size - margin_bottom
+        x2 = x1 + btn_size
+        y2 = y1 + btn_size
+        self.button_region = (x1, y1, x2, y2)
+
+        # Draw button background (semi-transparent gray circle)
+        overlay = frame.copy()
+        cv2.circle(overlay, (x1 + btn_size // 2, y1 + btn_size // 2), btn_size // 2, (50, 50, 50), -1)
+        cv2.addWeighted(overlay, 0.5, frame, 0.5, 0, frame)
+
+        # Draw icon (▶ or ⏸)
+        center_x, center_y = x1 + btn_size // 2, y1 + btn_size // 2
+        if self.paused:
+            # ▶ Play icon (triangle)
+            pts = np.array([
+                [center_x - 10, center_y - 15],
+                [center_x - 10, center_y + 15],
+                [center_x + 15, center_y]
+            ], np.int32)
+            cv2.fillPoly(frame, [pts], (0, 255, 0))
+        else:
+            # ⏸ Pause icon (two bars)
+            cv2.rectangle(frame, (center_x - 12, center_y - 15), (center_x - 4, center_y + 15), (0, 0, 255), -1)
+            cv2.rectangle(frame, (center_x + 4, center_y - 15), (center_x + 12, center_y + 15), (0, 0, 255), -1)
+
+        return frame
+    
+
     @staticmethod
     def combine_frames(frame, depth_color):
         """Combine original and depth visualization side-by-side."""
@@ -40,6 +92,7 @@ class Viewer:
             depth_color = cv2.resize(depth_color, (frame.shape[1], frame.shape[0]))
         return np.hstack((frame, depth_color))
 
-    @staticmethod
-    def show_frame(window_name, combined_frame):
-        cv2.imshow(window_name, combined_frame)
+    def show_frame(self, combined_frame):
+        """Show combined frame with play/pause button."""
+        frame_with_button = self._draw_button(combined_frame)
+        cv2.imshow(self.window_name, frame_with_button)
