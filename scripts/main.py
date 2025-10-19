@@ -7,7 +7,7 @@ from close_person_estimation import ClosePersonAnalyzer
 from viewer import Viewer
 
 VIDEO_PATH = "/workspace/close_person_detection/media/video.mp4"
-DEPTH_LIMIT = 20
+DEPTH_LIMIT = 90
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
