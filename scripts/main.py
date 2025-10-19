@@ -7,6 +7,7 @@ from close_person_estimation import ClosePersonAnalyzer
 from viewer import Viewer
 
 VIDEO_PATH = "/workspace/close_person_detection/media/video.mp4"
+DEPTH_LIMIT = 20
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -15,7 +16,7 @@ def main():
     # Initialize modules
     yolo = ObjectDetection(device=device)
     depth_estimator = DepthEstimator(device=device)
-    analyzer = ClosePersonAnalyzer(object_name="person", depth_limit=300)
+    analyzer = ClosePersonAnalyzer(object_name="person", depth_limit=DEPTH_LIMIT)
     viewer = Viewer()
 
     cap = cv2.VideoCapture(VIDEO_PATH)
@@ -26,6 +27,12 @@ def main():
 
     with torch.no_grad():
         while True:
+            if viewer.paused:
+                # Wait while paused
+                if cv2.waitKey(30) & 0xFF == ord('p'):
+                    viewer.paused = not viewer.paused
+                continue
+
             ret, frame = cap.read()
             if not ret:
                 break
@@ -44,10 +51,13 @@ def main():
             # Display
             frame = viewer.add_border(frame, border_color, border_size)
             combined = viewer.combine_frames(frame, depth_vis_color)
-            viewer.show_frame("Detected Person (Left) | Depth Map (Right)", combined)
+            viewer.show_frame(combined)
 
-            if cv2.waitKey(1) & 0xFF == ord("q"):
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord("q"):
                 break
+            elif key == ord("p"):  # toggle with keyboard
+                viewer.paused = not viewer.paused
 
     cap.release()
     cv2.destroyAllWindows()
