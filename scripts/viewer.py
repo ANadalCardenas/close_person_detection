@@ -17,6 +17,7 @@ class Viewer:
             x1, y1, x2, y2 = self.button_region
             if x1 <= x <= x2 and y1 <= y <= y2:
                 self.paused = not self.paused
+                cv2.imshow(self.window_name, self._draw_button(self.last_frame.copy()))
 
     @staticmethod
     def add_border(frame, color, size, message=""):
@@ -95,5 +96,6 @@ class Viewer:
 
     def show_frame(self, combined_frame):
         """Show combined frame with play/pause button."""
+        self.last_frame = combined_frame  # save last shown frame
         frame_with_button = self._draw_button(combined_frame)
         cv2.imshow(self.window_name, frame_with_button)
