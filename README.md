@@ -32,8 +32,8 @@ close_person_detection/
 ## 🚀 Features
 
 - YOLO-based object detection for people.
-- MiDaS depth estimation for distance calculation.
-- Proximity analysis with alerts (red/orange/green border).
+- Depth-Anything-V2 depth estimation for distance calculation.
+- Proximity analysis with alerts (messages and colors red/green border).
 - Real-time visualization combining detection + depth map.
 
 ---
@@ -65,14 +65,6 @@ docker exec -it close_person_detection_container bash
 
 ---
 
-## 🖥️ Requirements
-
-```bash
-pip install torch torchvision timm opencv-python numpy
-```
-
----
-
 ## ▶️ Usage
 
 1. Place your input video in `close_person_detection/media/video.mp4`.
@@ -88,14 +80,17 @@ python scripts/main.py
 
 ## ⚙️ Configuration
 
-Set the depth limit in `close_person_estimation.py`:
+Set the depth limit in `main.py` (DEPTH_LIMIT):
 
 ```python
-analyzer = ClosePersonAnalyzer(object_name="person", depth_limit=500)
+
+DEPTH_LIMIT = 90
+
 ```
 
 ---
 
 ## 📄 License
 
-MIT License. See the LICENSE file for details.
+This project is released under the MIT License. [(License.txt)](License.txt)  
+Feel free to use, modify, and distribute it for educational and research purposes.
