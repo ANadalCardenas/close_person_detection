@@ -7,6 +7,7 @@ from close_person_estimation import ClosePersonAnalyzer
 from viewer import Viewer
 
 VIDEO_PATH = "/workspace/close_person_detection/media/video.mp4"
+# The objects that appear so close are at more that 90 "units"
 DEPTH_LIMIT = 90
 
 def main():
@@ -53,7 +54,7 @@ def main():
             combined = viewer.combine_frames(frame, depth_vis_color)
             viewer.show_frame(combined)
 
-            key = cv2.waitKey(1) & 0xFF
+            key = cv2.waitKey(100) & 0xFF
             if key == ord("q"):
                 break
             elif key == ord("p"):  # toggle with keyboard
