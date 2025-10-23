@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 class ClosePersonAnalyzer:
-    def __init__(self, object_name="person", depth_limit=500):
+    def __init__(self, object_name="person", depth_limit=90):
         self.object_name = object_name
         self.depth_limit = depth_limit
 
@@ -17,7 +17,7 @@ class ClosePersonAnalyzer:
             for bbox in objects_dict[self.object_name]:
                 xmin, ymin, xmax, ymax = map(int, bbox)
                 object_depth = depth_map[ymin:ymax, xmin:xmax]
-                median_depth = np.median(object_depth)
+                median_depth = np.max(object_depth)
                 label = f"{median_depth:.1f} m"
 
                 # Draw bounding box
@@ -29,10 +29,10 @@ class ClosePersonAnalyzer:
                 cv2.putText(frame, label, (xmin, ymin - baseline), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
 
                 # Change border color and set message if too close
-                if median_depth < self.depth_limit:
+                if median_depth > self.depth_limit:
                     border_color = (0, 0, 255)   # red
                     border_message = "STOP"
-                elif median_depth < self.depth_limit * 1.2:
+                elif median_depth > self.depth_limit * 1.2:
                     border_color = (0, 140, 255)  # orange
                     border_message = "CAUTION"
 
