@@ -7,8 +7,8 @@ from close_person_estimation import ClosePersonAnalyzer
 from viewer import Viewer
 
 VIDEO_PATH = "/workspace/close_person_detection/media/video.mp4"
-# The objects that appear so close are at more that 90 "units"
-DEPTH_LIMIT = 90
+# The objects that appear so close are at lass than 0.015 "units"
+DEPTH_LIMIT = 0.015
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
