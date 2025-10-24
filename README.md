@@ -6,10 +6,8 @@ It highlights individuals who are closer than a defined distance threshold.
 ---
 
 ## 🎥 Demo Video
+[demo.webm](https://github.com/user-attachments/assets/a1d73b16-db31-427f-82a5-d3af15f363cb)
 
-The full demonstration video is available to view by clicking on the next GIF:
-
-[![Watch the demo](media/demo_preview.gif)](media/demo.webm)
 
 ## 📂 Project Structure
 
