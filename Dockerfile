@@ -17,7 +17,5 @@ RUN git clone https://github.com/ultralytics/yolov5.git
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN python3 -m pip install --no-cache-dir -r yolov5/requirements.txt
 
-# Install dependencies for Depth Anything v2
-RUN python3 -m pip install --no-cache-dir \
-    torch torchvision transformers pillow \
-    accelerate safetensors opencv-python
+# Install PyTorch + torchvision + timm for MiDaS
+RUN python3 -m pip install --no-cache-dir torch torchvision timm opencv-python gdown
