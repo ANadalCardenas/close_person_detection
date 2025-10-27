@@ -10,17 +10,12 @@ class DepthEstimator:
         Uses the HuggingFace pipeline for depth-estimation (Depth Anything V2).
         model_name: HF model id (small/base/large variants may exist)
         device: torch.device or None -> automatically set to GPU if available.
-        """
-        self.device = device or (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
-        
-        # pipeline device argument takes -1 for CPU, 0..n for CUDA devices
-        hf_device = 0 if torch.cuda.is_available() else -1
+        """        
         print(f"Loading Depth Anything V2 model '{model_name}' on device: {self.device} ...")
         # create pipeline
-        self.pipe = pipeline(task="depth-estimation", model=model_name, device=hf_device)
+        self.pipe = pipeline(task="depth-estimation", model=model_name, device=device)
         
-
-
+        
     def estimate_depth(self, frame):
         """
         Input: frame (BGR numpy array as from OpenCV)

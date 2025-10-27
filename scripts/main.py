@@ -15,7 +15,7 @@ def main():
     print(f"Using device: {device}")
 
     # Initialize modules
-    yolo = ObjectDetection(device=device)
+    object_detection = ObjectDetection(device=device)
     depth_estimator = DepthEstimator(device=device)
     analyzer = ClosePersonAnalyzer(object_name="person", depth_limit=DEPTH_LIMIT)
     viewer = Viewer()
@@ -42,10 +42,10 @@ def main():
             depth_pred, depth_vis_color = depth_estimator.estimate_depth(frame)
 
             # Object detection
-            detections = yolo.detect_objects(frame)
+            detections = object_detection.detect_objects(frame)
 
             # Combine depth + detection info
-            frame, border_color, border_size, border_message = analyzer.analyze(frame, depth_pred, detections, yolo)
+            frame, border_color, border_size, border_message = analyzer.analyze(frame, depth_pred, detections, object_detection)
             frame = viewer.add_border(frame, border_color, border_size, border_message)
 
 
