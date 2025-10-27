@@ -3,17 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile 
-    image: aina/close_person_detection:latest
+    image: close_person_detection:latest
     container_name: close_person_detection_container
     shm_size: '8gb'
     volumes:
       - /home/${USER}/workspace/close_person_detection/scripts:/workspace/close_person_detection/scripts
-      - /home/${USER}/workspace/close_person_detection/data:/workspace/close_person_detection/data
       - /home/${USER}/workspace/close_person_detection/media:/workspace/close_person_detection/media
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XAUTHORITY:-$HOME/.Xauthority}:/tmp/.Xauthority:ro
-    devices:
-      - /dev/video0:/dev/video0
     working_dir: /workspace/close_person_detection
     stdin_open: true
     tty: true
