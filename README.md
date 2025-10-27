@@ -5,11 +5,18 @@ It highlights individuals who are closer than a defined distance threshold.
 
 ---
 
-## 🎥 Demo Video
+## Possible utilities ans aplications
+- Last-response safety for self-driving cars — trigger emergency braking or evasive maneuvers when a person is detected too close to the vehicle.
+- Personal assistant robot safety — dynamically adjust robot behavior based on human distance and presence.
+- Smart home automation — trigger actions (e.g., lights, heating, or security cameras) when a person is detected within a certain range.
+- Gaming interfaces — enable proximity-based player interactions or adaptive experiences.
+ - Security surveillance — detect unauthorized proximity to restricted areas or valuable equipment.
+
+## Demo Video
 [demo.webm](https://github.com/user-attachments/assets/a1d73b16-db31-427f-82a5-d3af15f363cb)
 
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 close_person_detection/
@@ -27,7 +34,7 @@ close_person_detection/
 
 ---
 
-## 🚀 Features
+## Features
 
 - YOLO-based object detection for people.
 - Depth-Anything-V2 depth estimation for distance calculation.
@@ -36,7 +43,7 @@ close_person_detection/
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 Follow these steps to install all dependencies and set up the Docker environment:
 
@@ -82,7 +89,7 @@ Set the depth limit in `main.py` (DEPTH_LIMIT):
 
 ```python
 
-DEPTH_LIMIT = 90
+DEPTH_LIMIT = 0.01
 
 ```
 
