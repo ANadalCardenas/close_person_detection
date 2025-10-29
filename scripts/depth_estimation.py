@@ -11,7 +11,7 @@ class DepthEstimator:
         model_name: HF model id (small/base/large variants may exist)
         device: torch.device or None -> automatically set to GPU if available.
         """        
-        print(f"Loading Depth Anything V2 model '{model_name}' on device: {self.device} ...")
+        print(f"Loading Depth Anything V2 model '{model_name}' on device: {device} ...")
         # create pipeline
         self.pipe = pipeline(task="depth-estimation", model=model_name, device=device)
         
