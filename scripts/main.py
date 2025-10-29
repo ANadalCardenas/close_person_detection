@@ -3,12 +3,12 @@ import torch
 
 from object_detection import ObjectDetection
 from depth_estimation import DepthEstimator
-from close_person_estimation import ClosePersonAnalyzer
+from close_person_analyzer import ClosePersonAnalyzer
 from viewer import Viewer
 
 VIDEO_PATH = "/workspace/close_person_detection/media/video.mp4"
-# The objects that appear so close are at more that 90 "units"
-DEPTH_LIMIT = 90
+# The objects that appear so close are at less than 0.011 "units"
+DEPTH_LIMIT = 0.011
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -30,7 +30,7 @@ def main():
         while True:
             if viewer.paused:
                 # Wait while paused
-                if cv2.waitKey(30) & 0xFF == ord('p'):
+                if cv2.waitKey(500) & 0xFF == ord('p'):
                     viewer.paused = not viewer.paused
                 continue
 
@@ -54,7 +54,7 @@ def main():
             combined = viewer.combine_frames(frame, depth_vis_color)
             viewer.show_frame(combined)
 
-            key = cv2.waitKey(100) & 0xFF
+            key = cv2.waitKey(500) & 0xFF
             if key == ord("q"):
                 break
             elif key == ord("p"):  # toggle with keyboard
