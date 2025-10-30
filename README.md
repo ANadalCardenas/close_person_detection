@@ -5,7 +5,7 @@ It highlights individuals who are closer than a defined distance threshold.
 
 ---
 
-## Possible utilities ans aplications
+## Possible utilities and aplications
 - Last-response safety for self-driving cars — trigger emergency braking or evasive maneuvers when a person is detected too close to the vehicle.
 - Personal assistant robot safety — dynamically adjust robot behavior based on human distance and presence.
 - Smart home automation — trigger actions (e.g., lights, heating, or security cameras) when a person is detected within a certain range.
@@ -13,7 +13,7 @@ It highlights individuals who are closer than a defined distance threshold.
  - Security surveillance — detect unauthorized proximity to restricted areas or valuable equipment.
 
 ## Demo Video
-[demo.webm](https://github.com/user-attachments/assets/a1d73b16-db31-427f-82a5-d3af15f363cb)
+[demo.webm](https://github.com/user-attachments/assets/041c215a-568f-42db-915d-bff2ee476140)
 
 
 ## Project Structure
