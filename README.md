@@ -95,6 +95,38 @@ DEPTH_LIMIT = 0.01
 
 ---
 
+## Running the Tests
+
+The test suite covers all core modules (`ClosePersonAnalyzer`, `ObjectDetection`, `DepthEstimator`, `Viewer`). All heavy dependencies (YOLO, Depth Anything) are mocked, so no GPU or model downloads are required.
+
+### Option 1 — Run on your host machine
+
+```bash
+pip install pytest
+python -m pytest tests/ -v
+```
+
+### Option 2 — Run inside Docker
+
+```bash
+docker compose run --rm close_person_detection python3 -m pytest tests/ -v
+```
+
+### Run a specific test file
+
+```bash
+python -m pytest tests/test_close_person_analyzer.py -v
+```
+
+### Run a specific test class or method
+
+```bash
+python -m pytest tests/test_viewer.py::TestAddBorder -v
+python -m pytest tests/test_viewer.py::TestAddBorder::test_border_increases_frame_size -v
+```
+
+---
+
 ## 📄 License
 
 This project is released under the MIT License. [(License.txt)](License.txt)  
