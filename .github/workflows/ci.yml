@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t close_person_detection:latest .
+
+      - name: Run tests
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/scripts:/workspace/close_person_detection/scripts \
+            -v ${{ github.workspace }}/tests:/workspace/close_person_detection/tests \
+            close_person_detection:latest \
+            python3 -m pytest tests/ -v
